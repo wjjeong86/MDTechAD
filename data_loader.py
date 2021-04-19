@@ -82,11 +82,10 @@ class valid_sequence(keras.utils.Sequence):
         return int(np.ceil(len(self.meta_index)/self.batch_size))
     
     def on_epoch_end(self):
-#         np.random.shuffle(self.meta_index)
+        ''' validation 시에는 아무 것도 하지 않는다'''
         return 
     
-    def __getitem__(self, idx):
-        
+    def __getitem__(self, idx):        
         idx_beg = idx*self.batch_size
         idx_end = idx*self.batch_size+self.batch_size
         idx_end = min( idx_end, len(self.meta_index) )
@@ -155,112 +154,3 @@ if __name__ == '__main__':
     for paths, images, lwords in sq_vl:
         imshow( images[0]*255) 
         print(lwords[0])
-    
-#     sq_tr.on_epoch_end()
-
-# class wj_dacon_train_sequence(wj_dacon_valid_sequence):
-    
-    
-#     def on_epoch_end(self):
-#         np.random.shuffle(self.meta_index)
-#         return 
-        
-        
-#     def __len__(self):
-#         return int(np.floor(len(self.meta)/self.batch_size))
-    
-#     def _augmentation(self,image):
-            
-#         def RandomNoise(image):   
-# #             if np.random.rand()<0.5 :
-# #                 return {'image':image}
-            
-#             noise = np.random.rand( image.shape[0], image.shape[1] )
-#             image[noise< np.random.randint(0,32)/255] = 0
-#             image[ np.random.randint(250,254)/255<noise] = 255
-#             return {'image':image}
-            
-#         augs = [ 
-#             aug.GridDistortion(
-#                 num_steps=5,
-#                 distort_limit=0.25,
-#                 border_mode=0,
-#             ),
-#             aug.ElasticTransform(
-#                 alpha=1,
-#                 sigma=10,
-#                 alpha_affine=10,
-#                 border_mode=0,
-#             ),
-#             aug.CoarseDropout(
-#                 max_holes=16,   min_holes=4,
-#                 max_height=16,  min_height=4,
-#                 max_width=16,   min_width=4,
-#             ),
-# #             aug.RandomBrightnessContrast(
-# #             ),
-# #             aug.RandomGamma(
-# #             ),
-#         ]
-        
-        
-#         ### 필수 적용
-#         image = aug.ShiftScaleRotate(
-#             shift_limit=0.1,
-#             scale_limit=0.3,
-#             rotate_limit=[-180,180],
-#             border_mode=0,
-#             always_apply=True,
-#         )(image=image)['image']
-# #         image = RandomNoise(
-# #             image=image,
-# #         )['image']
-        
-        
-#         ### 랜덤적용
-#         augs_pick3 = np.random.choice(augs,min(len(augs),3))
-#         for func in augs_pick3:
-#             image = func(image = image)['image']
-                
-#         return image
-        
-
-
-
-
-    
-# if __name__ == '__main__':
-    
-    
-#     meta = pd.read_csv('../data/data/dirty_mnist_2nd_answer.csv',index_col='index')
-#     meta_tr = meta.iloc[:40000]
-#     meta_vl = meta.iloc[40000:]
-#     sq_tr = wj_dacon_train_sequence('../data/data/dirty_mnist_2nd',meta_tr,256,32,128)
-#     sq_vl = wj_dacon_valid_sequence('../data/data/dirty_mnist_2nd',meta_vl,256,0,128)
-    
-# #     sq_tr.on_epoch_end()
-#     for step, (paths, images, labels, lwords) in enumerate(sq_tr):
-#         print(step,paths[0])
-#         imshow(images[0]*255)
-#         if step == 10:
-#             break;
-#         pass
-# #     from tensorflow.keras.utils import OrderedEnqueuer
-# #     oq = OrderedEnqueuer(sq_tr)
-# #     oq.start()
-# #     gen_tr = oq.get()
-# #     for i in range(10000000):
-# #         _,images,_,_ = next(gen_tr)
-# #         imshow(images[0]*255)
-    
-# #     for step, (paths, images, labels) in enumerate(sq):
-# #         print(f'step {step} label {sq.label_2_string(labels[0])}')
-# #         imshow(images[0])
-# #         break;
-
-# #     meta_te = pd.read_csv('../data/data/sample_submission.csv',index_col='index')
-# #     sq_te = wj_dacon_valid_sequence(meta_te,1000)
-    
-# #     for i in range(10):
-# #         image = sq_te._get(i)[1]
-# #         imshow(image*255)
